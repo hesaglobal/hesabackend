@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .full-column {
+            flex: 1;
+            min-width: 100%;
+            box-sizing: border-box;
+            padding: 10px;
+            border: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+
+        .half-column {
+            flex: 0 0 calc(50% - 20px);
+            box-sizing: border-box;
+            padding: 5px;
+
+            margin-right: 20px;
+            margin-bottom: 5px;
+        }
+
+        .container {
+            /* border: 1px solid #000; */
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .border-line {
+            border: 1px solid #000;
+        }
+
+        .tax-in {
+            text-align: end;
+            float: inline-end;
+        }
+
+        #originalDiv {
+            /* background-color: lightblue; */
+
+            column-count: 2;
+            column-gap: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .ext-img {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            border: 1px solid #ddd;
+        }
+
+        .all-comp {
+            left: 20%;
+            position: relative;
+        }
+    </style>
+    <title>Receipt</title>
+</head>
+
+<body>
+    <section>
+        <div class="container">
+            <div class="full-column">
+                <div class="ext-img" style="display: inline-block;">
+                    <img src="<%=logo%>" alt="logo"
+                        style=" display: inline-block; width: 120px; height: auto; position: absolute; top: 40%;">
+                </div>
+                <div class="all-comp" style="display: inline-block;">
+                    <h3>
+                        <%=  displayName || userName %>
+                    </h3>
+                    <p>
+                        <%= invoiceaddress%>
+                    </p>
+                    <p>GSTIN <%= usergstin%>
+                    </p>
+
+
+                </div>
+                <div class="tax-in" style="display: inline-block;">
+                    <h2>Tax Invoice</h2>
+                </div>
+
+
+            </div>
+
+            <!-- <div class="half-column">
+                <div id="originalDiv">
+                    <p style="margin-top: 0;">Invoice Date</p>
+                    <p style="text-align: left;">
+                        <%= date%>
+                    </p>
+                </div>
+
+                <div id="originalDiv">
+                    <p style="margin-top: 0;">Terms</p>
+                    <p style="text-align: left;">Due on Receipt</p>
+                </div>
+
+                <div id="originalDiv">
+                    <p style="margin-top: 0;">Due Date</p>
+                    <p style="text-align: left;">
+                        <%= date%>
+                    </p>
+                </div>
+            </div>
+            <div class="half-column">
+                <div id="originalDiv">
+                    <p style="margin-top: 0;">Place Of Supply</p>
+                    <p style="text-align: end;">Telangana (36)</p>
+                </div>
+            </div> -->
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="half-column" style="margin-bottom: 0;">
+                                <div id="originalDiv">
+                                    <p style="margin-top: 0;">Invoice Date</p>
+                                    <p style="text-align: left;">
+                                        <%= date%>
+                                    </p>
+                                </div>
+
+                                <div id="originalDiv">
+                                    <p style="margin-top: 0;">Terms</p>
+                                    <p style="text-align: left;">Due on Receipt</p>
+                                </div>
+
+                                <div id="originalDiv">
+                                    <p style="margin-top: 0;">Due Date</p>
+                                    <p style="text-align: left;">
+                                        <%= date%>
+                                    </p>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="half-column" style="margin-bottom: 0;">
+                                <div id="originalDiv">
+                                    <p style="margin-top: 0;">Place Of Supply</p>
+                                    <p style="text-align: end;">Telangana (36)</p>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Bill to</th>
+                        <th>Ship to</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div><b><%=customerName%></b></div>
+                            <div>GSTIN - <%=customergstin %></div>
+                        </td>
+                        <td>
+                            <%=customerLocation%>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+
+
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Item & Description</th>
+                        <th>QTY</th>
+                        <th>Rate</th>
+                        <%if(customergstin?.slice(0, 2) === usergstin?.slice(0, 2)||!customergstin){%>
+                        <th>CGST</th>
+                        <th>SGST</th>
+                        <%} else {%>
+                        <th>IGST</th>
+                        <% } %>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% orderItems.forEach((order, i)=> { %>
+                        <tr>
+                            <td>
+                                <%= i + 1 %>
+                            </td>
+                            <td>
+                                <%=order.itemName%>
+                            </td>
+                            <td>
+                                <%=order.quantity%>
+                                    <%=order.units || '' %>
+                            </td>
+                            <td>
+                                <%=order.displayPrice%>
+                            </td>
+                            <%if(customergstin?.slice(0, 2) === usergstin?.slice(0, 2) || !customergstin){%>
+                            <td>
+                                <%= ((order.GSTRate||0)/2).toFixed(0)%>
+                            </td>
+                            <% } %>
+                            <td>
+                                <%= ((order.GSTRate||0)/2).toFixed(0)%>
+                            </td>
+                            <td>
+                                <%= order.amount.toFixed(2) %>
+                            </td>
+                        </tr>
+                        <% }) %>
+                </tbody>
+            </table>
+
+            <div class="half-column" style="margin-top: 10px;">
+                <P>
+                    <%=totalAmountWords%> Thanks for your business.
+                </P>
+            </div>
+            <div class="half-column border-line" style="margin-top: 10px;">
+                <div id="originalDiv">
+                    <p style="margin-top: 0;">Total</p>
+                    <p style="text-align: end;">₹<%=totalAmount.toFixed(2)%>
+                    </p>
+                </div>
+                <div id="originalDiv">
+                    <p style="margin-top: 0;">Payment Made</p>
+                    <p style="text-align: end;">(-) <%= (amountpaid || 0).toFixed(2)%>
+                    </p>
+                </div>
+                <div id="originalDiv">
+                    <p style="margin-top: 0;">Balance Due</p>
+                    <p style="text-align: end;">₹<%=(balance || totalAmount).toFixed(2)%>
+                    </p>
+                </div>
+            </div>
+            <div class="half-column ">
+                <img src="<%= qr%>" alt="QR" style="display: inline-block; width: 180px; height: auto;">
+            </div>
+        </div>
+    </section>
+
+
+</body>
+
+</html>

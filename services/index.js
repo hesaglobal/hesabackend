@@ -1,0 +1,22 @@
+module.exports = {
+    AdminValidator: require('./validator/commonValidator'),
+    DbService: require('./Db.service'),
+    TokenService: require('./token.service'),
+    CommonAggService: require('./commonAgg.service'),
+    CommonFun: require('./commonFun'),
+    TransribedServices: require('./transcribe.service'),
+    LoggerService: require('./logger.service'),
+    AwsService: require('./aws.services'),
+    StaffValidator: require('./validator/staff.validator'),
+    LocationService:require('./location.service'),
+    PDFService:require('./pdf.service'),
+    EcommerceService: require('./ecommerce.service'),
+    CustomerCareService: require('./customercare.service'),
+    JobsService:require('./jobs.service'),
+    MessageService: require('./message.service'),
+    InteraktService:require('./interakt.service'),
+    DashBoardService:require('./dashboard.service'),
+    RealEstateService:require('./RealEstate.service'),
+    EnrollmentService:require('./enrollment.service'),
+    PublisherService: require('./message/publisher.service')
+}

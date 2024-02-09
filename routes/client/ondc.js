@@ -1,0 +1,11 @@
+const express = require('express');
+const { ONDCController } = require('../../controller/client');
+const { Upload } = require('../../middlewares');
+const router = express.Router();
+router.get('',ONDCController.getUploadedRecords);
+router.post("/upload", Upload.fields([{name:"file",maxCount:5},{name:"audio",maxCount:1}]),ONDCController.uploadContent);
+router.post('/transcribeContent/:ondcId',ONDCController.transcribeContent);
+router.get('/content/:ondcId',ONDCController.getTranscribedContent);
+router.delete('/delete/:ondcId',ONDCController.deleteContent);
+router.put('/update/:ondcId',ONDCController.updateRecord);
+module.exports = router;
