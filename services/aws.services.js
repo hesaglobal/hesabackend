@@ -78,7 +78,7 @@ module.exports = {
             Key: fileKey,
         };
 
-        const localPath = path.join(__dirname, "../public/input.mp3");
+        const localPath = "/tmp/input.mp3";
         const fileStream = fs.createWriteStream(localPath)
         return new Promise((resolve, reject) => {
             s3.getObject(params)

@@ -21,7 +21,7 @@ module.exports = {
     getTranscription: async (fileKey, module,departments=[]) => {
         
         await AwsService.getFileStreamFromS3(fileKey);
-        const localPath = path.join(__dirname, "../public/input.mp3");
+        const localPath = "/tmp/input.mp3";
         let fileStream = fs.createReadStream(localPath);
         const response = await openAI.audio.transcriptions.create({
             file: fileStream,
@@ -54,7 +54,7 @@ module.exports = {
     },
     transcribeAudioOnly: async (fileKey, interaktUrl = false) => {
         await AwsService.getFileStreamFromS3(fileKey)
-        const localPath = path.join(__dirname, "../public/input.mp3");
+        const localPath = "/tmp/input.mp3";
         let fileStream = fs.createReadStream(localPath)
         const response = await openAI.audio.transcriptions.create({
             file: fileStream,
@@ -66,10 +66,10 @@ module.exports = {
     },
     getGeneralTranscription: async (fileKey, user) => {
         await AwsService.getFileStreamFromS3(fileKey)
-        const localPath = path.join(__dirname, "../public/input.mp3");
+        const localPath = "/tmp/input.mp3";
         let fileStream = fs.createReadStream(localPath)
         let audioDuration = await commonFun.getAudioDuration(localPath)
-        const outputPattern = path.join(__dirname, '../public/output');
+        const outputPattern = path.join(__dirname, '../tmp/output');
         let coinsDeducted = 1;
         let result = '';
         let coinsStatus = commonFun.getCoinsStatus(user)
